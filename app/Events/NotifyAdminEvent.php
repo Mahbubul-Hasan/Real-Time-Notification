@@ -14,15 +14,15 @@ class NotifyAdminEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
     
-    public $message;
+    public $user;
     /**
     * Create a new event instance.
     *
     * @return void
     */
-    public function __construct($message)
+    public function __construct($user)
     {
-        $this->message = $message;
+        $this->user = $user;
     }
     
     /**
@@ -32,6 +32,6 @@ class NotifyAdminEvent implements ShouldBroadcast
     */
     public function broadcastOn()
     {
-        return new PrivateChannel('channel-name');
+        return new Channel('NotifyAdminEvent');
     }
 }
