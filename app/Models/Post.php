@@ -13,7 +13,7 @@ class Post extends Model
     {
         return $this->belongsTo("App\Models\User");
     }
-
+    
     public function savePost($request, $post)
     {
         $post->user_id = Auth::user()->id;
