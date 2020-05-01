@@ -13,7 +13,7 @@
                         {{ session('status') }}
                     </div>
                     @endif
-                    <form action="" method="post">
+                    <form action="{{ route("post") }}" method="post">
                         @csrf
                         <div class="input-group">
                             <div class="input-group-prepend">
