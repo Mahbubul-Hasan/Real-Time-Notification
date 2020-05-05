@@ -9,9 +9,6 @@
     
     <title>{{ config('app.name', 'Laravel') }}</title>
     
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}" defer></script>
-    
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css?family=Nunito" rel="stylesheet">
@@ -40,7 +37,7 @@
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                Notification <span class="badge badge-danger">0</span> <span class="caret"></span>
+                                Notification <span id="notificationCount" class="badge badge-danger">0</span> <span class="caret"></span>
                             </a>
                             
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
@@ -64,26 +61,34 @@
                             </a>
                             
                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="{{ route('logout') }}"
-                                onclick="event.preventDefault();
-                                document.getElementById('logout-form').submit();">
-                                {{ __('Logout') }}
-                            </a>
-                            
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                @csrf
-                            </form>
-                        </div>
-                    </li>
-                    @endguest
-                </ul>
+                                <a class="dropdown-item" href="{{ route('logout') }}"onclick="event.preventDefault(); document.getElementById('logout-form').submit();">{{ __('Logout') }}</a>
+                                
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+                            </div>
+                        </li>
+                        @endguest
+                    </ul>
+                </div>
             </div>
-        </div>
-    </nav>
-    
-    <main class="py-4">
-        @yield('content')
-    </main>
-</div>
+        </nav>
+        
+        <main class="py-4">
+            @yield('content')
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="{{ asset('js/app.js') }}"></script>
+
+    <script>
+        Echo.channel('NotifyAdminEvent')
+        .listen('NotifyAdminEvent', (response) => {
+            let count = Number($("#notificationCount").text());
+            $("#notificationCount").text(count + 1)
+            console.log("response", response.user)
+        });
+    </script>
 </body>
 </html>
