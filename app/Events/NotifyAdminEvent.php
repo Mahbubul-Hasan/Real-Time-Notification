@@ -2,6 +2,7 @@
 
 namespace App\Events;
 
+use App\Models\Post;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -15,6 +16,7 @@ class NotifyAdminEvent implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
     
     public $user;
+    public $post;
     /**
     * Create a new event instance.
     *
@@ -23,6 +25,8 @@ class NotifyAdminEvent implements ShouldBroadcast
     public function __construct($user)
     {
         $this->user = $user;
+        $this->post = Post::latest('id')->first();
+        
     }
     
     /**

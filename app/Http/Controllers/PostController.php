@@ -13,14 +13,14 @@ class PostController extends Controller
     {
         $request->validate([
             'post' => 'required|string',
-        ]);
-        
-        $post = new Post();
-        $post->savePost($request, $post);
-
-        event(new NotifyAdminEvent(Auth::user()));
-        
-        session()->flash('status', 'Post create successfully');
-        return redirect()->back();
+            ]);
+            
+            $post = new Post();
+            $post->savePost($request, $post);
+            
+            event(new NotifyAdminEvent(Auth::user()));
+            
+            session()->flash('status', 'Post create successfully');
+            return redirect()->back();
+        }
     }
-}

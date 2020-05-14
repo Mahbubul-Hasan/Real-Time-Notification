@@ -35,15 +35,6 @@
                     
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
-                        <li class="nav-item dropdown">
-                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                Notification <span id="notificationCount" class="badge badge-danger">0</span> <span class="caret"></span>
-                            </a>
-                            
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <a class="dropdown-item" href="#">No notification aviable</a>
-                            </div>
-                        </li>
                         <!-- Authentication Links -->
                         @guest
                         <li class="nav-item">
@@ -55,6 +46,18 @@
                         </li>
                         @endif
                         @else
+                        <!-- Notification -->
+                        <li class="nav-item dropdown">
+                            <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
+                                Notification <span id="notificationCount" class="badge badge-danger">0</span> <span class="caret"></span>
+                            </a>
+                            
+                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                <span></span>
+                                <a class="dropdown-item" href="#">No notification aviable</a>
+                            </div>
+                        </li>
+                        
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 {{ Auth::user()->name }} <span class="caret"></span>
@@ -87,7 +90,9 @@
         .listen('NotifyAdminEvent', (response) => {
             let count = Number($("#notificationCount").text());
             $("#notificationCount").text(count + 1)
-            console.log("response", response.user)
+            $(".dropdown-menu.dropdown-menu-right span")[0].outerHTML = 
+            `<span></span>
+            <a class="dropdown-item" href="#"><strong>${response.user.name}</strong> create a new post "${response.post.post.substring(0, 20)}..."</a>`
         });
     </script>
 </body>
