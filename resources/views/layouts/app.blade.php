@@ -49,15 +49,14 @@
                         <!-- Notification -->
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
-                                Notification <span id="notificationCount" class="badge badge-danger">0</span> <span class="caret"></span>
+                                Notification <span id="notificationCount" class="badge badge-danger">{{ count(Auth::user()->unreadNotifications) }}</span> <span class="caret"></span>
                             </a>
                             
-                            <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                <span></span>
-                                <a class="dropdown-item" href="#">No notification aviable</a>
+                            <div id="showNotifications" class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
+                                @include('layouts.notification')
                             </div>
                         </li>
-                        
+
                         <li class="nav-item dropdown">
                             <a id="navbarDropdown" class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" v-pre>
                                 {{ Auth::user()->name }} <span class="caret"></span>
@@ -89,10 +88,16 @@
         Echo.channel('NotifyAdminEvent')
         .listen('NotifyAdminEvent', (response) => {
             let count = Number($("#notificationCount").text());
-            $("#notificationCount").text(count + 1)
-            $(".dropdown-menu.dropdown-menu-right span")[0].outerHTML = 
-            `<span></span>
-            <a class="dropdown-item" href="#"><strong>${response.user.name}</strong> create a new post "${response.post.post.substring(0, 20)}..."</a>`
+            $("#notificationCount").text(count + 1);
+            
+            $.ajax({
+                url: "{{URL::route('notifications')}}",
+                method: "GET",
+                datatype: "HTML",
+                success: function(response) {
+                    $("#showNotifications").html(response);   
+                }
+            })
         });
     </script>
 </body>

@@ -23,3 +23,6 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::post('/post', "PostController@index")->name("post");
+Route::get('/notifications', "PostController@notifications")->name("notifications");
+Route::get('/markAsRead/{nId}', "PostController@markAsRead")->name("markAsRead");
+Route::get('/markAsAllRead', "PostController@markAsAllRead")->name("markAsAllRead");
