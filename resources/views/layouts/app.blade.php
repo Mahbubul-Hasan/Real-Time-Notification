@@ -53,7 +53,7 @@
                             </a>
                             
                             <div id="showNotifications" class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-                                @include('layouts.notification')
+                                <x-notifications/>
                             </div>
                         </li>
 
